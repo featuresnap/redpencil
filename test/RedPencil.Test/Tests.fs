@@ -2,6 +2,7 @@ namespace Tests
 
 open System
 open Xunit
+open FsUnit.Xunit
 
 module WhenIneligible = 
 
@@ -14,7 +15,7 @@ module WhenIneligible =
         let currentState = Ineligible {DaysUntilEligible = 30; LastPrice = 100M }
         let transition = DaysElapse(29)
         let expectedState = Ineligible {DaysUntilEligible = 1; LastPrice = 100M }
-        Assert.Equal(expectedState, currentState |> applyTransition(transition))
+        currentState |> applyTransition(transition) |> should equal expectedState
        
     [<Fact>]
     let ``Price decrease restarts eligibility countdown with new price`` () =
